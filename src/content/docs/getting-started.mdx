@@ -1,0 +1,140 @@
+---
+title: Getting Started
+description: Get up and running with Project-Env in minutes.
+---
+
+import { Tabs, TabItem, Steps, Aside } from '@astrojs/starlight/components';
+
+Get up and running with Project-Env: install the CLI, create a configuration file, run it, and integrate it into your environment.
+
+## 1. Install the CLI
+
+<Tabs>
+  <TabItem label="macOS (Homebrew)">
+    ```bash
+    brew install --cask project-env/tap/project-env-cli
+    ```
+  </TabItem>
+  <TabItem label="Windows (Winget)">
+    ```bash
+    winget install ProjectEnv.ProjectEnvCli
+    ```
+  </TabItem>
+</Tabs>
+
+See the [CLI documentation](/cli/) for more details.
+
+## 2. Create a `project-env.toml`
+
+Add a `project-env.toml` file to the root of your project. Here is a minimal example that sets up a JDK and Maven:
+
+```toml
+tools_directory = ".tools"
+
+[jdk]
+version = "21.0.2+13"
+distribution = "TEMURIN"
+
+[maven]
+version = "3.9.6"
+```
+
+<Aside type="tip">
+Add `.tools/` to your `.gitignore` to avoid committing downloaded tool binaries.
+</Aside>
+
+See the [CLI documentation](/cli/) for the full configuration reference, including Gradle, NodeJS, Git hooks, and generic tools.
+
+## 3. Install the tools
+
+```bash
+project-env-cli install
+```
+
+This downloads and sets up the configured tools into the specified `tools_directory`. By default, the CLI outputs JSON with tool metadata (paths, environment variables).
+
+## 4. Integrate into your environment
+
+### Shell integration
+
+To make the installed tools available in your current shell session, use the `--output-template` flag to generate and source a shell script:
+
+<Tabs>
+  <TabItem label="zsh / bash">
+    ```bash
+    source <(project-env-cli install --output-template=sh)
+    ```
+
+    This exports the correct `PATH` and environment variables (e.g. `JAVA_HOME`) into your current shell.
+
+    To **automatically activate tools** when you enter a project directory, add this to your `~/.zshrc`:
+
+    ```bash
+    # Project-Env auto-loader
+    load_project_env() {
+      local search_dir="$PWD"
+      while [[ "$search_dir" != "/" ]]; do
+        if [[ -f "$search_dir/project-env.toml" ]]; then
+          source <(project-env-cli --config-file="$search_dir/project-env.toml" --output-template=sh)
+          return 0
+        fi
+        search_dir="$(dirname "$search_dir")"
+      done
+    }
+
+    autoload -U add-zsh-hook
+    add-zsh-hook chpwd load_project_env
+    load_project_env
+    ```
+
+    This walks up the directory tree to find a `project-env.toml` and sources the tools on every directory change.
+  </TabItem>
+  <TabItem label="PowerShell">
+    ```powershell
+    project-env-cli install --output-template=pwsh | Invoke-Expression
+    ```
+
+    To **automatically activate tools** when you enter a project directory, add this to your PowerShell profile (`$PROFILE`):
+
+    ```powershell
+    # Project-Env auto-loader
+    function Load-ProjectEnv {
+        $searchDir = $PWD.Path
+        while ($searchDir -ne [System.IO.Path]::GetPathRoot($searchDir)) {
+            $configFile = Join-Path $searchDir "project-env.toml"
+            if (Test-Path $configFile) {
+                project-env-cli install --config-file="$configFile" --output-template=pwsh | Invoke-Expression
+                return
+            }
+            $searchDir = Split-Path $searchDir -Parent
+        }
+    }
+
+    # Run on startup
+    Load-ProjectEnv
+
+    # Run on directory change (requires prompt override)
+    $Global:__ProjectEnvLastDir = $PWD.Path
+    $Function:prompt = {
+        if ($PWD.Path -ne $Global:__ProjectEnvLastDir) {
+            $Global:__ProjectEnvLastDir = $PWD.Path
+            Load-ProjectEnv
+        }
+        "PS $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1)) "
+    }
+    ```
+  </TabItem>
+  <TabItem label="Cygwin">
+    ```bash
+    source <(project-env-cli install --output-template=cygwin)
+    ```
+  </TabItem>
+</Tabs>
+
+### IDE and CI integrations
+
+For automated integration without manual shell setup:
+
+- **[IntelliJ Plugin](/integrations/intellij-plugin/)** -- configures IntelliJ to use the installed tools automatically
+- **[GitHub Action](/integrations/github-action/)** -- makes tools available in your GitHub Actions workflows
+- **[Jenkins Plugin](/integrations/jenkins-plugin/)** -- makes tools available in Jenkins Pipeline steps

@@ -1,0 +1,41 @@
+---
+title: Jenkins Plugin
+description: Jenkins Pipeline plugin for using Project-Env in CI pipelines.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+This content is maintained in the [pipeline-project-env-plugin](https://github.com/jenkinsci/pipeline-project-env-plugin) GitHub repository.
+</Aside>
+
+This plugin allows you to use Project-Env within Jenkins pipelines. See [Project-Env](https://projectenv.io) for more details.
+
+## Getting started
+
+```groovy
+node {
+    withProjectEnv(
+            // The Project-Env CLI version which should be used.
+            cliVersion: string,
+            // Whether to activate the debug mode in the Project-Env CLI.
+            // If not configured, the debug mode will be deactivated.
+            cliDebug: boolean,
+            // The path to the Project-Env CLI configuration file.
+            // If not configured, project-env.toml will be used.
+            configFile: string
+    ) {
+        // ...
+    }
+}
+```
+
+### Example
+
+```groovy
+node {
+    withProjectEnv(cliVersion: '3.4.0') {
+        // ...
+    }
+}
+```

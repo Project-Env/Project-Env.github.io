@@ -1,0 +1,38 @@
+---
+title: GitHub Action
+description: GitHub Action that sets up Project-Env tools in your CI workflows.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note">
+This content is maintained in the [project-env-github-action](https://github.com/Project-Env/project-env-github-action) GitHub repository.
+</Aside>
+
+This action sets up the runner environment with Project-Env. It downloads the CLI, runs `project-env-cli install`, and configures all tool paths and environment variables for subsequent workflow steps.
+
+## Inputs
+
+### `cli-version`
+
+**Required.** Version of [Project-Env CLI](https://github.com/Project-Env/project-env-cli) to use.
+
+### `cli-debug`
+
+Whether to activate the debug mode of the [Project-Env CLI](https://github.com/Project-Env/project-env-cli).
+
+## Example usage
+
+```yaml
+steps:
+  - uses: actions/checkout@v4
+
+  - uses: project-env/project-env-github-action@v1
+    with:
+      cli-version: '3.26.0'
+
+  - run: java --version
+  - run: mvn --version
+```
+
+After the action runs, all tools declared in your `project-env.toml` are available on `PATH` with the correct environment variables set.
