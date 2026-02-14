@@ -1,0 +1,71 @@
+---
+title: Project-Env
+description: Automatic project-local tool management for JDK, Maven, Gradle, NodeJS and more.
+template: splash
+hero:
+  tagline: Automatically set up project-specific tools like JDK, Maven, Gradle, and NodeJS -- per project, without conflicts.
+  image:
+    file: ../../assets/logo.png
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/Project-Env
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## How it works
+
+Define your tools in a `project-env.toml` at the project root:
+
+```toml
+tools_directory = ".tools"
+
+[jdk]
+version = "21.0.2+13"
+distribution = "TEMURIN"
+
+[maven]
+version = "3.9.6"
+
+[nodejs]
+version = "22.12.0"
+```
+
+Then run:
+
+```bash
+source <(project-env-cli install --output-template=sh)
+```
+
+That's it. `java`, `mvn`, and `node` are now available -- project-local, no global install conflicts.
+
+## Why Project-Env?
+
+<CardGrid>
+	<Card title="Project-scoped" icon="document">
+		Each project declares its own tool versions. No global conflicts, no side effects.
+	</Card>
+	<Card title="Cross-platform" icon="laptop">
+		Works on Windows, Linux, and macOS.
+	</Card>
+	<Card title="Environment-agnostic" icon="setting">
+		One config file drives your shell, IDE, and CI -- no per-environment setup.
+	</Card>
+	<Card title="Extensible" icon="puzzle">
+		Supports JDK, Maven, Gradle, NodeJS, Git hooks, and any generic tool via custom download URLs.
+	</Card>
+</CardGrid>
+
+## Integrations
+
+<CardGrid>
+	<LinkCard title="IntelliJ Plugin" description="Configures IntelliJ to use the installed tools automatically." href="/integrations/intellij-plugin/" />
+	<LinkCard title="GitHub Action" description="Sets up tools in your GitHub Actions workflows." href="/integrations/github-action/" />
+	<LinkCard title="Jenkins Plugin" description="Makes tools available in Jenkins Pipeline steps." href="/integrations/jenkins-plugin/" />
+</CardGrid>

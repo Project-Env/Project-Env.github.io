@@ -1,0 +1,40 @@
+---
+title: IntelliJ Plugin
+description: IntelliJ IDEA plugin that configures project tools set up by Project-Env CLI.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+<Aside type="note">
+This content is maintained in the [project-env-intellij-plugin](https://github.com/Project-Env/project-env-intellij-plugin) GitHub repository.
+</Aside>
+
+This plugin configures tools set up by the Project-Env CLI, as far as possible, in the IntelliJ project settings.
+
+Currently, the following project settings are configured automatically if the tool is declared:
+
+- **JDK**: Adds the JDK to the JDK table and sets it as project JDK
+- **Maven**:
+  - Sets the project specific path to Maven to the corresponding location.
+  - Makes all environment variables of all declared tools available to Maven executions
+  - Configures the user specific settings file -- the global settings file is (if existing) linked into the Maven distribution.
+- **Gradle**:
+  - Sets the project specific path to Gradle to the corresponding location.
+  - Makes all environment variables of all declared tools available to Gradle executions
+- **Node**: Adds a new interpreter and sets it as project default interpreter
+
+<Aside type="caution">
+Changes in the `project-env.toml` file are only loaded once after opening the project. Afterwards, Project-Env must be manually refreshed by using the action under **Tools** > **Project-Env** > **Refresh**.
+</Aside>
+
+## Installation
+
+<Steps>
+1. **Using IDE built-in plugin system:**
+
+   **Preferences** > **Plugins** > **Marketplace** > Search for **"Project-Env"** > **Install Plugin**
+
+2. **Manually:**
+
+   Download the [latest release](https://github.com/Project-Env/project-env-intellij-plugin/releases/latest) and install it manually using **Preferences** > **Plugins** > **Install plugin from disk...**
+</Steps>

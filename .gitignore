@@ -1,7 +1,21 @@
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
+# build output
+dist/
 
-.idea
+# project-env tools
+.tools/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# IDE
+.idea/
+
+# environment variables
+.env
+.env.production
+
+# macOS
+.DS_Store

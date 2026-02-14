@@ -1,0 +1,4 @@
+tools_directory = ".tools"
+
+[nodejs]
+version = "24.13.1"
