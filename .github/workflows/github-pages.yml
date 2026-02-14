@@ -23,7 +23,7 @@ jobs:
 
       - uses: Project-Env/project-env-github-action@8958dac5824fd73ced04459e76f49654b95044a6 # v1.5.0
         with:
-          cli-version: '3.12.2'
+          cli-version: '3.26.0'
 
       - run: npm ci
 
