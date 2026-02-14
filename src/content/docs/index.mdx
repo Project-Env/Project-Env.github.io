@@ -19,13 +19,33 @@ hero:
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
+## How it works
+
+Define your tools in a `project-env.toml` at the project root:
+
+```toml
+tools_directory = ".tools"
+
+[jdk]
+version = "21.0.2+13"
+distribution = "TEMURIN"
+
+[maven]
+version = "3.9.6"
+
+[nodejs]
+version = "22.12.0"
+```
+
+Then run:
+
+```bash
+source <(project-env-cli install --output-template=sh)
+```
+
+That's it. `java`, `mvn`, and `node` are now available -- project-local, no global install conflicts.
+
 ## Why Project-Env?
-
-Working on multiple projects often means juggling different versions of the same tools.
-One project needs GraalVM, another needs Temurin, and a third requires a specific NodeJS version.
-Keeping these in sync across your IDE, shell, and CI environment is tedious and error-prone.
-
-Project-Env solves this with a single `project-env.toml` configuration file per project.
 
 <CardGrid>
 	<Card title="Project-scoped" icon="document">
@@ -35,7 +55,7 @@ Project-Env solves this with a single `project-env.toml` configuration file per 
 		Works on Windows, Linux, and macOS.
 	</Card>
 	<Card title="Environment-agnostic" icon="setting">
-		Integrates with IDEs, CI pipelines, and shell environments through a single configuration.
+		One config file drives your shell, IDE, and CI -- no per-environment setup.
 	</Card>
 	<Card title="Extensible" icon="puzzle">
 		Supports JDK, Maven, Gradle, NodeJS, Git hooks, and any generic tool via custom download URLs.
@@ -49,9 +69,3 @@ Project-Env solves this with a single `project-env.toml` configuration file per 
 	<LinkCard title="GitHub Action" description="Sets up tools in your GitHub Actions workflows." href="/integrations/github-action/" />
 	<LinkCard title="Jenkins Plugin" description="Makes tools available in Jenkins Pipeline steps." href="/integrations/jenkins-plugin/" />
 </CardGrid>
-
-## Similar projects
-
-- [sdkman.io](https://sdkman.io)
-- [asdf-vm.com](https://asdf-vm.com)
-- [volta.sh](https://volta.sh)
