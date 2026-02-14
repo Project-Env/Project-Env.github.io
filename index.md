@@ -5,33 +5,29 @@ description: Yet another project tools manager
 nav_order: 1
 ---
 
-# Introduction
+# Project-Env
 
 ## TL;DR
 Project-Env automatically maintains the project-local setup of project specific tools like a JDK or NodeJS in a shell/IDE/CI environment.
 
-[Get started now](./docs/getting-started.md){: .btn .btn-purple }
+Define your tools in a single `project-env.toml` file, and Project-Env takes care of downloading, installing, and configuring them -- per project, without side effects.
 
-## Problem
+**Supported tools:** JDK, Maven, Gradle, NodeJS, Git hooks, and any generic tool via custom download URLs.
 
-Before being able to start contributing to a project, I often have to follow project setup instructions. One thing, which is needed for almost every project, is installing and configuring required tools like a JDK or NodeJS. As I am working on multiple projects at the same time, the management of multiple versions of the same tool type gets complicated. If you for example have to install GraalVM for one project and AdoptOpenJDK for another, you have to ensure, that your IDE/Shell is always using the correct JDK in each project. It even gets more tedious if you have to maintain the tool versions in a CI environment (e.g. in Jenkins through global tools).
+**Integrations:** [IntelliJ Plugin](./docs/integrations/intellij-plugin.md), [GitHub Action](./docs/integrations/github-action.md), [Jenkins Pipeline](./docs/integrations/jenkins-plugin.md)
 
-Until today, I couldn't find any solution which completely handles that part of a project. That's why I created Project-Env.
+[Get started](./docs/getting-started.md){: .btn .btn-purple }
 
-### Requirements for the solution
-* Support for Windows, Linux and macOS
-* Support for project specific tool configuration &#8594; no side effects in other projects
-* Support for automatic configuration of installed tools in development tools/environments
+## Why Project-Env?
 
-## Idea
+Working on multiple projects often means juggling different versions of the same tools -- one project needs GraalVM, another needs Temurin, and a third requires a specific NodeJS version. Keeping these in sync across your IDE, shell, and CI environment is tedious and error-prone.
 
-The idea is to have a simple configuration file in each project which specifies which tools are needed to work with the project. This file can then be used by any tool to set itself up with the required third-party tools.
+Project-Env solves this by:
+* **Project-scoped tool management** -- each project declares its own tool versions, no global conflicts
+* **Cross-platform** -- works on Windows, Linux, and macOS
+* **Environment-agnostic** -- integrates with IDEs, CI pipelines, and shell environments through a single configuration file
 
-## Similar projects/tools
+## Similar projects
 * <https://sdkman.io>{:target="_blank"}
 * <https://asdf-vm.com>{:target="_blank"}
 * <https://volta.sh>{:target="_blank"}
-
---- 
-
-[Get started now](./docs/getting-started.md){: .btn .btn-purple }

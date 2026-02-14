@@ -6,13 +6,52 @@ nav_order: 2
 ---
 
 # Getting started
-To simplify integrations, I created a [CLI application](./cli.md) which contains the heavy part of Project-Env, which is the setup and configuration of tools defined in a Project-Env configuration file. The returned tools info can then be used by an integration to configure them in the corresponding environment.
 
-## Set up config file
-To get started with Project-Env in a project, you first need to set up the Project-Env config file. Since the configuration options are strongly linked to the used [CLI application](./cli.md) version, the options are documented at the same location as the one for the CLI.
+Get up and running with Project-Env in three steps: install the CLI, create a configuration file, and run it.
 
-## Set up CLI application
-If you want to use Project-Env on your local development machine, you need to download the [CLI application](./cli.md) and make it available through the `PATH` variable (there exist some automatic installation options too). Integrations like the one for Github Actions or the Jenkins Pipeline plugin will set up the CLI automatically.
+## 1. Install the CLI
 
-## Set up integrations
-Choose one or more [integrations](./integrations/index.md) and set them up according to the corresponding documentation.
+**macOS (Homebrew):**
+```bash
+brew install --cask project-env/tap/project-env-cli
+```
+
+**Windows (Winget):**
+```bash
+winget install ProjectEnv.ProjectEnvCli
+```
+
+See the [CLI documentation](./cli.md) for more details.
+
+## 2. Create a `project-env.toml`
+
+Add a `project-env.toml` file to the root of your project. Here is a minimal example that sets up a JDK and Maven:
+
+```toml
+tools_directory = ".tools"
+
+[jdk]
+version = "21.0.2+13"
+distribution = "TEMURIN"
+
+[maven]
+version = "3.9.6"
+```
+
+See the [CLI documentation](./cli.md) for the full configuration reference, including Gradle, NodeJS, Git hooks, and generic tools.
+
+## 3. Run the install
+
+```bash
+project-env install
+```
+
+Project-Env will download and set up the configured tools into the specified `tools_directory`.
+
+## 4. Set up an integration
+
+To automatically configure the installed tools in your environment, set up one or more [integrations](./integrations/index.md):
+
+* **[IntelliJ Plugin](./integrations/intellij-plugin.md)** -- configures IntelliJ to use the installed tools
+* **[GitHub Action](./integrations/github-action.md)** -- makes tools available in your GitHub Actions workflows
+* **[Jenkins Plugin](./integrations/jenkins-plugin.md)** -- makes tools available in Jenkins Pipeline steps
